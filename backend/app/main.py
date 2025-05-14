@@ -1,0 +1,39 @@
+import uvicorn
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# Crear la instancia de la aplicacion FastAPI
+app = FastAPI(
+    title="Cliently API", # Titulo para la documentacion OpenAPI
+    description="API para gestionar clientes y comentarios", # Descripcion
+    version="0.1.0", # Version de la API
+    debug = True,
+)
+
+origins = [
+    "http://localhost:3000", # Frontend
+    "http://localhost:8000", # Backend
+]
+
+app.add_middleware (
+    CORSMiddleware,
+    allow_origins = origins,
+    allow_credentials = True,
+    allow_methods = ["*"],
+    allow_headers = ["*"],
+    # allow_headers=["Accept", "Authorization", "Content-Type"] # En producción
+)
+
+from .clients import routers as clients_router
+app.include_router(clients_router.router, prefix="/api/clients", tags=["clients"])
+
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to the Cliently FastAPI backend!"}
+
+
+# if __name__ == "__main__":
+#     uvicorn.run(app, host="0.0.0.0", port=8000)
