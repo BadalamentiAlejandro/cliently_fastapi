@@ -41,7 +41,7 @@ def get_clients_list(db: Session, skip: int = 0, limit: int = 20):
 
 def get_client(db: Session, name: str):
         
-    try: # func.lower() ayuda a pasar por alto case-senitive.
+    try: # func.lower() ayuda a pasar por alto case-senitive. Los schemas de pydantic no tienen .lower() directo
         client = db.query(models.Client).filter(func.lower(models.Client.name) == name.lower()).first()
         return client
 
@@ -79,11 +79,13 @@ def delete_client(db: Session, name: str):
      
     try:
         client = get_client(db, name)
-        if client:
-            db.delete(client)
-            db.commit()
-            return client
-        return None
+
+        if client is None:
+            return None
+        
+        db.delete(client)
+        db.commit()
+        return client
     
     except Exception as e:
         db.rollback()

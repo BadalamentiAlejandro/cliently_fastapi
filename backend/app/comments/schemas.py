@@ -20,7 +20,7 @@ class Comment(CommentBase):
     client_id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class Message(BaseModel):

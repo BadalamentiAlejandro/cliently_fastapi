@@ -29,8 +29,12 @@ app.add_middleware (
 
 from .clients import routers as clients_router
 from .comments import routers as comments_router
+from .users import routers as users_router
+from .auth import routers as auth_router
 app.include_router(clients_router.router, prefix="/api/clients", tags=["clients"])
 app.include_router(comments_router.router, prefix="/api/clients/{client_id}/comments", tags=["comments"])
+app.include_router(users_router.router, prefix="/api/users", tags=["users"])
+app.include_router(auth_router.router, prefix="/api/auth", tags=["Authentication"])
 
 @app.get("/")
 def read_root():

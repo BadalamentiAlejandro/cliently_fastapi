@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime, CheckConstraint
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
 from datetime import datetime, timezone
 from ..database import Base
 
@@ -11,7 +12,7 @@ class Client(Base):
     name = Column(String, unique=True, index=True, nullable=False)
     email = Column(String, index=True, nullable=True)
     phone = Column(String, nullable=True)
-    created_at = Column(DateTime, default=datetime.now(timezone.utc))
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     
     comments = relationship("Comment", back_populates="client", cascade="all, delete-orphan")
 
