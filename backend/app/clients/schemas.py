@@ -14,6 +14,7 @@ class ClientCreate(ClientBase):
 
 
 class ClientUpdate(ClientBase):
+    name: Optional[str]
     pass
 
 
@@ -22,7 +23,7 @@ class Client(ClientBase):
     created_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class Message(BaseModel):

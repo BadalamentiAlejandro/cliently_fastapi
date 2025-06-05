@@ -3,11 +3,19 @@ from sqlalchemy.orm import Session
 
 from . import models
 from . import schemas
-
-from ..clients.crud import get_client
-
+from ..clients import models as client_model
 
 
+def get_client(db: Session, client_id):
+        
+    try:
+        client = db.query(client_model.Client).filter(client_model.Client.id == client_id).first()
+        return client
+
+    except Exception as e:
+        db.rollback()
+        logging.error(f"Unexpected error in get_client: {e}")
+        raise
 
 
 def create_comment(db: Session, comment: schemas.CommentCreate, client_id: int):
@@ -56,6 +64,7 @@ def update_comment(db: Session, comment_id: int, updated_comment: schemas.Commen
 
     try:
         db_comment = get_comment(db, comment_id)
+        
         if db_comment is None:
             return None
         
@@ -75,11 +84,13 @@ def delete_comment(db: Session, comment_id: int):
 
     try:
         db_comment = get_comment(db, comment_id)
-        if db_comment:
-            db.delete(db_comment)
-            db.commit()
-            return db_comment
-        return None
+
+        if db_comment is None:
+            return None
+        
+        db.delete(db_comment)
+        db.commit()
+        return db_comment
     
     except Exception as e:
         db.rollback()

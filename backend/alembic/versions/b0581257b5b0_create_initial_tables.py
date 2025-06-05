@@ -35,7 +35,7 @@ def upgrade() -> None:
     op.create_table('comments',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('text', sa.String(), nullable=True),
-    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('ccreated_at', sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
     sa.Column('client_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['client_id'], ['clients.id'], ),
     sa.PrimaryKeyConstraint('id')

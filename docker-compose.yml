@@ -32,9 +32,8 @@ services:
       - ./backend/requirements.txt:/app/requirements.txt # Backup in case.
       - ./backend/alembic:/app/alembic
       - ./backend/alembic.ini:/app/alembic.ini
-    environment:
-      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
-      SECRET_KEY: ${SECRET_KEY}
+    env_file:
+      - .env
     depends_on:
       db:
         condition: service_healthy
