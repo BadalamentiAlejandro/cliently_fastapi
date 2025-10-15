@@ -7,6 +7,7 @@ class ClientBase(BaseModel):
     name: str
     email: Optional[str] = None
     phone: Optional[str] = None
+    is_active: Optional[bool] = True
 
 
 class ClientCreate(ClientBase):

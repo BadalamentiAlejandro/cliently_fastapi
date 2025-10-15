@@ -27,10 +27,10 @@ def create_client(db: Session, client: schemas.ClientCreate):
         raise
 
 
-def get_clients_list(db: Session, skip: int = 0, limit: int = 20):
+def get_clients_list(db: Session):
 
     try:
-        clients = db.query(models.Client).offset(skip).limit(limit).all()
+        clients = db.query(models.Client).filter(models.Client.is_active == True)
         return clients
     
     except Exception as e:
@@ -83,8 +83,9 @@ def delete_client(db: Session, name: str):
         if client is None:
             return None
         
-        db.delete(client)
+        client.is_active = False
         db.commit()
+        db.refresh(client)
         return client
     
     except Exception as e:

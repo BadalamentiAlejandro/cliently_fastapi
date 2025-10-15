@@ -14,13 +14,21 @@ app = FastAPI(
 )
 
 origins = [
-    "http://localhost:3000", # Frontend
-    "http://localhost:8000", # Backend
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    
+    # Docker
+    "http://localhost:3000",
+    "http://frontend:3000",
+    "http://backend:8000",
 ]
 
 app.add_middleware (
     CORSMiddleware,
-    allow_origins = origins,
+    allow_origins = [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ],
     allow_credentials = True,
     allow_methods = ["*"],
     allow_headers = ["*"],

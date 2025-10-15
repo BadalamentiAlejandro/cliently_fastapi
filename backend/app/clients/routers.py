@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 from . import schemas
 from . import crud
-from ..auth.dependencies import get_current_user
+from ..auth.dependencies import require_roles
 from ..users import schemas as users_schemas
 
 from ..database import get_db
@@ -14,7 +14,7 @@ router = APIRouter()
 
 
 @router.post("/", response_model=schemas.Client, status_code=status.HTTP_201_CREATED)
-def create_client(client: schemas.ClientCreate, db: Session = Depends(get_db), user: users_schemas.User = Depends(get_current_user)):
+def create_client(client: schemas.ClientCreate, db: Session = Depends(get_db), user: users_schemas.User = Depends(require_roles(["admin", "responsible", "operator"]))):
 
     # Validación manual nombre vacío.
     if not client.name or client.name.strip() == "":        
@@ -37,15 +37,15 @@ def create_client(client: schemas.ClientCreate, db: Session = Depends(get_db), u
     
 
 @router.get("/", response_model=List[schemas.Client], status_code=status.HTTP_200_OK)
-def get_clients(skip: int = 0, limit: int = 20, db: Session = Depends(get_db), user: users_schemas.User = Depends(get_current_user)):
+def get_clients(db: Session = Depends(get_db), user: users_schemas.User = Depends(require_roles(["admin", "responsible", "operator", "regular"]))):
 
-    clients_list = crud.get_clients_list(db, skip, limit)
+    clients_list = crud.get_clients_list(db)
 
     return clients_list
     
 
 @router.get("/{name}", response_model=schemas.Client, status_code=status.HTTP_200_OK)
-def get_client(name: str, db: Session = Depends(get_db), user: users_schemas.User = Depends(get_current_user)):
+def get_client(name: str, db: Session = Depends(get_db), user: users_schemas.User = Depends(require_roles(["admin", "responsible", "operator", "regular"]))):
 
     db_client = crud.get_client(db, name)
 
@@ -58,7 +58,7 @@ def get_client(name: str, db: Session = Depends(get_db), user: users_schemas.Use
     
 
 @router.put("/{name}", response_model=schemas.Client, status_code=status.HTTP_200_OK)
-def update_client(name: str, client_update: schemas.ClientUpdate, db: Session = Depends(get_db), user: users_schemas.User = Depends(get_current_user)):
+def update_client(name: str, client_update: schemas.ClientUpdate, db: Session = Depends(get_db), user: users_schemas.User = Depends(require_roles(["admin", "responsible", "operator"]))):
 
     name = name.strip()
 
@@ -79,7 +79,7 @@ def update_client(name: str, client_update: schemas.ClientUpdate, db: Session = 
     
 
 @router.delete("/{name}", response_model=schemas.Message, status_code=status.HTTP_200_OK)
-def delete_client(name: str, db: Session = Depends(get_db), user: users_schemas.User = Depends(get_current_user)):
+def delete_client(name: str, db: Session = Depends(get_db), user: users_schemas.User = Depends(require_roles(["admin", "responsible"]))):
 
     name = name.strip()
     

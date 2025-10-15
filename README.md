@@ -14,3 +14,5 @@ docker-compose up --build
 In backend/app/main.py uncomment last lines.
 
 To run app in local, alembic migrations must be excecuted in order to have the database prepared for it. Remember that some environmental variables differ in local and Docker.
+
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload

@@ -1,10 +1,10 @@
 from typing import List
-from fastapi import APIRouter, Depends, HTTPException, status, Request
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from . import schemas
 from . import crud
-from ..auth.dependencies import require_admin
+from ..auth.dependencies import require_roles
 
 from ..database import get_db
 
@@ -13,7 +13,7 @@ router = APIRouter()
 
 
 @router.post("/", response_model=schemas.User, status_code=status.HTTP_201_CREATED)
-async def create_user(user_data: schemas.UserCreate, request: Request, db: Session = Depends(get_db), admin_user: schemas.User = Depends(require_admin)):
+async def create_user(user_data: schemas.UserCreate, db: Session = Depends(get_db), user: schemas.User = Depends(require_roles(["admin"]))):
 
     if not user_data.username or user_data.username.strip() == "":
         raise HTTPException(
@@ -41,7 +41,7 @@ async def create_user(user_data: schemas.UserCreate, request: Request, db: Sessi
 
 
 @router.get("/", response_model=List[schemas.User], status_code=status.HTTP_200_OK)
-def get_users_list(skip: int = 0, limit: int = 20, db: Session = Depends(get_db), admin_user: schemas.User = Depends(require_admin)):
+def get_users_list(skip: int = 0, limit: int = 20, db: Session = Depends(get_db), user: schemas.User = Depends(require_roles(["admin"]))):
 
     db_users_list = crud.get_users_list(db, skip, limit)
 
@@ -49,7 +49,7 @@ def get_users_list(skip: int = 0, limit: int = 20, db: Session = Depends(get_db)
 
 
 @router.get("/{username}", response_model=schemas.User, status_code=status.HTTP_200_OK)
-def get_user(username: str, db: Session = Depends(get_db), admin_user: schemas.User = Depends(require_admin)):
+def get_user(username: str, db: Session = Depends(get_db), user: schemas.User = Depends(require_roles(["admin"]))):
 
     db_user = crud.get_user_by_username(db, username)
 
@@ -63,7 +63,7 @@ def get_user(username: str, db: Session = Depends(get_db), admin_user: schemas.U
 
 
 @router.put("/{username}", response_model=schemas.User, status_code=status.HTTP_200_OK)
-def update_user(username: str, update_data: schemas.UserUpdate, db: Session = Depends(get_db), admin_user: schemas.User = Depends(require_admin)):
+def update_user(username: str, update_data: schemas.UserUpdate, db: Session = Depends(get_db), user: schemas.User = Depends(require_roles(["admin"]))):
 
     username = username.strip()
 
@@ -86,7 +86,7 @@ def update_user(username: str, update_data: schemas.UserUpdate, db: Session = De
     return db_user_update
 
 @router.delete("/{username}", response_model=schemas.Message, status_code=status.HTTP_200_OK)
-def delete_user(username: str, db: Session = Depends(get_db), admin_user: schemas.User = Depends(require_admin)):
+def delete_user(username: str, db: Session = Depends(get_db), user: schemas.User = Depends(require_roles(["admin"]))):
 
     username = username.strip()
 

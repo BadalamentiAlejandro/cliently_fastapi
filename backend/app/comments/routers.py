@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 from . import schemas
 from . import crud
-from ..auth.dependencies import get_current_user
+from ..auth.dependencies import require_roles
 from ..users import schemas as users_schemas
 
 from ..database import get_db
@@ -14,7 +14,7 @@ router = APIRouter()
 
 
 @router.post("/", response_model=schemas.Comment, status_code=status.HTTP_201_CREATED)
-def create_comment(client_id: int, comment: schemas.CommentCreate, db: Session = Depends(get_db), user: users_schemas.User = Depends(get_current_user)):
+def create_comment(client_id: int, comment: schemas.CommentCreate, db: Session = Depends(get_db), user: users_schemas.User = Depends(require_roles(["admin", "responsible", "operator"]))):
 
     if not comment.text or comment.text.strip() == "":
         raise HTTPException(
@@ -34,14 +34,14 @@ def create_comment(client_id: int, comment: schemas.CommentCreate, db: Session =
 
 
 @router.get("/", response_model=List[schemas.Comment], status_code=status.HTTP_200_OK)
-def get_comments(client_id: int, skip: int=0, limit: int=20, db: Session = Depends(get_db), user: users_schemas.User = Depends(get_current_user)):
+def get_comments(client_id: int, skip: int=0, limit: int=10, db: Session = Depends(get_db), user: users_schemas.User = Depends(require_roles(["admin", "responsible", "operator", "regular"]))):
 
     db_comments = crud.get_comments(db, client_id, skip, limit)
     return db_comments
 
 
 @router.put("/{comment_id}", response_model=schemas.Comment, status_code=status.HTTP_200_OK)
-def update_comment(comment_id: int, comment_updated: schemas.CommentUpdate, db: Session = Depends(get_db), user: users_schemas.User = Depends(get_current_user)):
+def update_comment(comment_id: int, comment_updated: schemas.CommentUpdate, db: Session = Depends(get_db), user: users_schemas.User = Depends(require_roles(["admin", "responsible", "operator"]))):
 
     comment_update = crud.update_comment(db, comment_id, comment_updated)
 
@@ -55,7 +55,7 @@ def update_comment(comment_id: int, comment_updated: schemas.CommentUpdate, db: 
 
 
 @router.delete("/{comment_id}", response_model=schemas.Message, status_code=status.HTTP_200_OK)
-def delete_comment(comment_id: int, db: Session = Depends(get_db), user: users_schemas.User = Depends(get_current_user)):
+def delete_comment(comment_id: int, db: Session = Depends(get_db), user: users_schemas.User = Depends(require_roles(["admin", "responsible"]))):
 
     comment_delete = crud.delete_comment(db, comment_id)
 

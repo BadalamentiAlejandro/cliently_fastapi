@@ -1,6 +1,6 @@
 import logging
-from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
+from typing import List
+from fastapi import Depends, HTTPException, status, Cookie
 from sqlalchemy.orm import Session
 
 from .jwt_handler import verify_jwt
@@ -9,10 +9,7 @@ from ..users.models import User
 from ..database import get_db
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/auth/token")
-
-
-async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)) -> User:
+async def get_current_user(access_token: str = Cookie(None), db: Session = Depends(get_db)) -> User:
 
     credential_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -20,7 +17,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = De
     )
 
     try:
-        payload = verify_jwt(token)
+        payload = verify_jwt(access_token)
         user_id = payload.get("sub")
 
         if user_id is None:
@@ -38,11 +35,18 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = De
     return user
 
 
-async def require_admin(current_user: User = Depends(get_current_user)):
+def require_roles(allowed_roles: List[str]):
 
-    if current_user.role != "admin":
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Operation requires admin."
-        )
-    return current_user
+    def role_checker(user: User = Depends(get_current_user)):
+
+        if user.role not in allowed_roles:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Not enough permissions."
+            )
+        
+        return user
+    
+    return role_checker
+    
+

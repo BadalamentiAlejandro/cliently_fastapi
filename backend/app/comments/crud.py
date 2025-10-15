@@ -37,10 +37,11 @@ def create_comment(db: Session, comment: schemas.CommentCreate, client_id: int):
         raise
 
 
-def get_comments(db: Session, client_id: int, skip: int=0, limit: int=20):
+def get_comments(db: Session, client_id: int, skip: int=0, limit: int=10):
 
     try:
-        db_comments = db.query(models.Comment).filter(models.Comment.client_id == client_id).offset(skip).limit(limit).all()
+        # order_by ayuda a que los comentarios se ordenen de último a primero.
+        db_comments = db.query(models.Comment).filter(models.Comment.client_id == client_id).order_by(models.Comment.created_at.desc()).offset(skip).limit(limit).all()
         return db_comments
     
     except Exception as e:
