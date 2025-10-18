@@ -1,15 +1,15 @@
-# version: '3.8'
+version: "3.9"
 
 services:
   db:
-    image: postgres:16-alpine
+    image: postgres:17
     container_name: cliently_db
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "5433:5432"
+      - "5432:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
     healthcheck:
@@ -17,7 +17,7 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-
+    restart: always
 
   backend:
     build:
@@ -28,29 +28,28 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./backend/app:/app/app
-      - ./backend/requirements.txt:/app/requirements.txt # Backup in case.
-      - ./backend/alembic:/app/alembic
-      - ./backend/alembic.ini:/app/alembic.ini
+      - ./backend:/app
     env_file:
       - .env
     depends_on:
       db:
         condition: service_healthy
+    restart: always
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-      args:
-        FASTAPI_URL: ${FASTAPI_URL}
-    container_name: cliently_svelte_frontend
+      # args:           # Para build de producción.
+      #   FASTAPI_URL: ${FASTAPI_URL}
+    container_name: cliently_react_frontend
     ports:
-      - "3000:3000"
+      - "5173:5173"
     env_file:
       - .env
     depends_on:
       - backend
+    restart: always
 
 volumes:
   pg_data:

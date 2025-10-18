@@ -2,7 +2,6 @@ import './App.css'
 import {Routes, Route} from 'react-router-dom'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
-import AdminDashboard from './pages/AdminDashboard'
 import ProtectedRoute from './context/ProtectedRoute'
 
 function App() {
@@ -15,14 +14,6 @@ function App() {
                   element={
                     <ProtectedRoute>
                       <Dashboard />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path='/admindashboard'
-                  element={
-                    <ProtectedRoute>
-                      <AdminDashboard />
                     </ProtectedRoute>
                   }
                 />
