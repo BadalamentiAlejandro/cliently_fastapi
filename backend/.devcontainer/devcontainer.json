@@ -1,0 +1,37 @@
+{
+  "name": "Backend (FastAPI) - Dev Container",
+  
+  // CORRECCIÓN: Sube dos niveles desde .devcontainer/ a la raíz del proyecto para encontrar docker-compose.yml
+  "dockerComposeFile": ["../../docker-compose.yml"],
+  
+  "service": "backend", 
+  "workspaceFolder": "/app", 
+
+  // CORRECCIÓN: Sube dos niveles para encontrar el .env en la raíz del proyecto
+  // (La ruta 'source' en mounts es relativa a la carpeta donde abres VS Code, que es 'backend/')
+  "mounts": [
+    "source=../.env,target=/app/.env,type=bind,consistency=cached"
+  ],
+  
+  "containerEnv": {
+    "PYTHONUNBUFFERED": "1"
+  },
+  
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash",
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": true
+      },
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance"
+      ]
+    }
+  },
+  
+  "forwardPorts": [8000, 5432],
+  "postAttachCommand": "echo 'VS Code conectado al Backend.'"
+}

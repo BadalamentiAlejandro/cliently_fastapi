@@ -1,0 +1,24 @@
+{
+  "name": "Frontend (React) - Attachment",
+  
+  "dockerComposeFile": ["../../docker-compose.yml"], 
+  "service": "frontend", 
+  "workspaceFolder": "/app", 
+  
+  "containerEnv": {
+    "CHOKIDAR_USEPOLLING": "true"
+  },
+  
+  // CORRECCIÓN: 'extensions' anidado bajo 'customizations' y 'vscode'
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "dsznajder.es7-react-js-snippets"
+      ]
+    }
+  },
+
+  "forwardPorts": [5173]
+}
