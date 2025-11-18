@@ -5,12 +5,14 @@ from datetime import timezone
 from ..settings import JWT_EXPIRATION, JWT_SECRET
 
 
-def create_jwt(user_id: int, expiration_minutes: int = JWT_EXPIRATION) -> str:
+def create_jwt(user_id: int, username:str, role:str, expiration_minutes: int = JWT_EXPIRATION) -> str:
 
     expire = datetime.datetime.now(timezone.utc) + datetime.timedelta(minutes=expiration_minutes)
 
     payload = {
         "sub": str(user_id),
+        "username": str(username),
+        "role": str(role),
         "exp": expire
     }
 

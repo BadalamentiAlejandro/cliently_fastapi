@@ -12,11 +12,11 @@ import uuid
 from datetime import datetime, timezone, timedelta
 
 
-def create_tokens(db: Session, user_id: int):
+def create_tokens(db: Session, user_id: int, username: str, role: str):
 
     try:
         # Crear access token
-        access_token = jwt_handler.create_jwt(user_id)
+        access_token = jwt_handler.create_jwt(user_id, username, role)
 
         # Crear refresh token como UUID string
         refresh_token_str = str(uuid.uuid4())
@@ -67,7 +67,7 @@ def get_refresh_token(db: Session, token_str: str):
         return False
 
     # Crear nuevo access token
-    access_token = jwt_handler.create_jwt(db_token.user_id)
+    access_token = jwt_handler.create_jwt(user_id, username, role)
 
     return schemas.TokenResponse(
         access_token=access_token,

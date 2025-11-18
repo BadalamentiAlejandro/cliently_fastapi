@@ -32,9 +32,9 @@ function Modal({ confirmFunc, cancelFunc, text }) {
             ></div>
 
             {/* Contenido del modal */}
-            <div className="bg-transparent text-stone-200 rounded-lg shadow-lg z-10 w-2xl p-6 flex flex-col items-center justify-center">
+            <div className="bg-blue-900 text-stone-200 rounded-lg shadow-lg z-10 w-2xl p-6 flex flex-col items-center justify-center">
                 <h2
-                    className="text-xl font-bold mb-4"
+                    className="text-black mb-4 bg-gray-300 rounded-md p-3 flex items-center justify-center text-center"
                     style={{ whiteSpace: "pre-line" }}
                 >
                     {text}
@@ -43,14 +43,14 @@ function Modal({ confirmFunc, cancelFunc, text }) {
                 <div className="flex flex-row items-center justify-center">
                     <button
                     onClick={confirmFunc} 
-                    className="bg-stone-600 p-2 m-2 rounded-full hover:bg-stone-700 min-w-fit transition duration-500 ease-in-out hover:scale-110"
+                    className="bg-blue-900 p-2 m-2 rounded-full hover:bg-blue-700 min-w-fit transition duration-500 ease-in-out hover:scale-110"
                     >
                         Confirmar
                     </button>
 
                     <button 
                     onClick={cancelFunc}
-                    className="bg-stone-600 p-2 m-2 rounded-full hover:bg-red-600 min-w-fit transition duration-500 ease-in-out hover:scale-110"
+                    className="bg-blue-900 p-2 m-2 rounded-full hover:bg-red-600 min-w-fit transition duration-500 ease-in-out hover:scale-110"
                     >
                     Cancelar
                     </button>

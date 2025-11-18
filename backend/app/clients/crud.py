@@ -84,6 +84,7 @@ def delete_client(db: Session, name: str):
             return None
         
         client.is_active = False
+        client.name = f"{client.name}__deleted_{client.id}"
         db.commit()
         db.refresh(client)
         return client

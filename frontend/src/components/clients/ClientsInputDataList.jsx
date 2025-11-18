@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Modal from "../Modal";
-import search from "../../assets/search.png"
 
 function ClientsInputDataList ({ clients, onSelect }) {
     const [incorrectClient, setIncorrectClient] = useState(false);
@@ -36,9 +35,9 @@ function ClientsInputDataList ({ clients, onSelect }) {
                     name="clientInput"
                     autoComplete="off"
                     list="clientsList" 
-                    className="p-2 m-1 border-2 border-black rounded-md bg-slate-400 text-black w-[calc(20vw)]"
+                    className="p-2 m-1 bg-blue-700 rounded-md text-white w-[calc(20vw)]"
                     placeholder="Elige un cliente" />
-                    <button type="submit" className="bg-stone-400 p-2 m-2 rounded-full hover:bg-stone-600 transtition duration-500 ease-in-out hover:scale-110 min-w-fit"><img src={search} alt="Buscar" className="h-5 w-5" /></button>
+                    <button type="submit" className="bg-blue-900 p-2 m-2 rounded-md hover:bg-blue-700 text-white transtition duration-500 ease-in-out hover:scale-110 min-w-fit">Buscar</button>
                 </form>
 
                 <datalist id="clientsList">

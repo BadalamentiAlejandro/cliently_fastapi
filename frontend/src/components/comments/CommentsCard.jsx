@@ -6,9 +6,9 @@ function CommentsCard({ comments, selectedClient, modFunction, delFunction, ctx 
     return(
         <div className="flex flex-col w-2xl">
             {comments.length === 0 || !selectedClient ? (
-                <div className="flex flex-col border-1 border-black m-1 rounded-md">
-                    <p className="text-neutral-200 pt-1 bg-stone-600 rounded-t-md min-h-[3rem] flex items-center justify-center">No hay comentarios</p>
-                    <p className="flex items-center justify-end bg-stone-600 rounded-b-md text-neutral-200 text-xs pb-1 px-1">
+                <div className="flex flex-col m-1 rounded-md">
+                    <p className="text-black pt-1 bg-stone-200 rounded-t-md min-h-[3rem] flex items-center justify-center">No hay comentarios</p>
+                    <p className="flex items-center justify-end bg-stone-200 text-black rounded-b-md text-xs pb-1 px-1">
                         FECHA: Sin fecha.
                     </p>
                 </div>
@@ -16,9 +16,9 @@ function CommentsCard({ comments, selectedClient, modFunction, delFunction, ctx 
                 comments.map((e) => {
                     return (
                         <div key={e.id} className="flex flex-col m-1 rounded-md">
-                            <div className='flex flex-col border-1 border-black rounded-md w-2xl'>
-                                <p className="text-neutral-200 pt-1 px-2 bg-stone-600 rounded-t-md min-h-[3rem] flex items-center justify-start whitespace-pre-wrap text-start">{e.text}</p>
-                                <p className="flex items-center justify-end bg-stone-600 rounded-b-md text-neutral-200 text-xs pb-1 px-1">
+                            <div className='flex flex-col rounded-md w-2xl'>
+                                <p className="text-black pt-1 px-2 bg-stone-200 rounded-t-md min-h-[3rem] flex items-center justify-start whitespace-pre-wrap text-start">{e.text}</p>
+                                <p className="flex items-center justify-end bg-stone-200 text-black rounded-b-md text-black text-xs pb-1 px-1">
                                     FECHA:{" "}
                                     {new Date(e.created_at).toLocaleDateString()}{" "}
                                     {new Date(e.created_at).toLocaleTimeString()}

@@ -25,7 +25,7 @@ function DeleteClientButton({ selected, onSelect, removeClient, ctx }) {
     return(
         <div className="flex flex-col items-center justify-center">
             <button
-            className="bg-stone-400 p-2 m-2 rounded-full hover:bg-red-600 w-[calc(12vw)] hover:translate-x-5 transition ease-in-out duration-500"
+            className="bg-blue-900 p-2 m-2 rounded-full hover:bg-red-600 text-white w-[calc(12vw)] hover:translate-x-5 transition ease-in-out duration-500"
             onClick={handleWarn}
             >
                 Borrar cliente

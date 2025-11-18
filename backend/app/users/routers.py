@@ -41,9 +41,9 @@ async def create_user(user_data: schemas.UserCreate, db: Session = Depends(get_d
 
 
 @router.get("/", response_model=List[schemas.User], status_code=status.HTTP_200_OK)
-def get_users_list(skip: int = 0, limit: int = 20, db: Session = Depends(get_db), user: schemas.User = Depends(require_roles(["admin"]))):
+def get_users_list(db: Session = Depends(get_db), user: schemas.User = Depends(require_roles(["admin"]))):
 
-    db_users_list = crud.get_users_list(db, skip, limit)
+    db_users_list = crud.get_users_list(db)
 
     return db_users_list
 
@@ -65,10 +65,10 @@ def get_user(username: str, db: Session = Depends(get_db), user: schemas.User = 
 @router.put("/{username}", response_model=schemas.User, status_code=status.HTTP_200_OK)
 def update_user(username: str, update_data: schemas.UserUpdate, db: Session = Depends(get_db), user: schemas.User = Depends(require_roles(["admin"]))):
 
-    username = username.strip()
+    username = username.strip().lower()
 
     if update_data.username:
-        update_data.username.strip()
+        update_data.username = update_data.username.strip().lower()
 
     db_user_update = crud.update_user(db, username, update_data)
 
@@ -83,12 +83,14 @@ def update_user(username: str, update_data: schemas.UserUpdate, db: Session = De
             status_code=status.HTTP_409_CONFLICT,
             detail=f"User with {username} already exists in database."
         )
+    
     return db_user_update
+
 
 @router.delete("/{username}", response_model=schemas.Message, status_code=status.HTTP_200_OK)
 def delete_user(username: str, db: Session = Depends(get_db), user: schemas.User = Depends(require_roles(["admin"]))):
 
-    username = username.strip()
+    username = username.strip().lower()
 
     db_user_delete = crud.delete_user(db, username)
 

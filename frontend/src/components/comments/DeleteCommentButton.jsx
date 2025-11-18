@@ -11,10 +11,10 @@ function DeleteCommentButton({ comment, selectedClient, delFunction, ctx }) {
 
     return(
         <div>
-            <button onClick={() => {setOpen(true)}} className="flex w-fit m-1 rounded-md bg-stone-400 p-2 hover:bg-red-600 hover:scale-110 ease-in-out transition duration-500">Borrar</button>
+            <button onClick={() => {setOpen(true)}} className="flex w-fit m-1 rounded-md bg-blue-900 text-white p-2 hover:bg-red-600 hover:scale-110 ease-in-out transition duration-500">Borrar</button>
 
             {open &&(
-                <Modal confirmFunc={handleDelete} cancelFunc={() => {setOpen(false)}} text={`Deseas eliminar el comentario: \n"${comment.text}"?`} />
+                <Modal confirmFunc={handleDelete} cancelFunc={() => {setOpen(false)}} text={`¿Deseas eliminar el comentario: \n"${comment.text}"?`} />
             )}
         </div>
     )

@@ -1,21 +1,23 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { logout } from "../services/auth/deleteTokens";
 import { verify } from '../services/auth/verifyTokens';
 import { login as loginService } from '../services/auth/getTokens';
-
-const AuthContext = createContext();
+import AuthContext from "../hooks/authContext";
 
 export function AuthProvider({ children }) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState(null);
 
     // Verifica token al montar la app
     useEffect(() => {
         async function checkAuth() {
             try {
-                await verify(); // si no lanza error, el token es válido
+                const data = await verify(); // si no lanza error, el token es válido
+                setUser(data);
                 setIsAuthenticated(true);
             } catch (err) {
+                console.warn(err)
                 setIsAuthenticated(false); // si falla, no hay token válido
             } finally {
                 setLoading(false)
@@ -28,6 +30,8 @@ export function AuthProvider({ children }) {
     async function authLogin(username, password) {
         try {
             await loginService(username, password); // setea cookies en backend
+            const data = await verify();
+            setUser(data);
             setIsAuthenticated(true);
         } catch (err) {
             setIsAuthenticated(false);
@@ -39,6 +43,8 @@ export function AuthProvider({ children }) {
     async function authLogout() {
         try {
             await logout();
+            setUser(null);
+            setIsAuthenticated(false);
         } catch (err) {
             console.error("Error en logout:", err);
         } finally {
@@ -47,16 +53,8 @@ export function AuthProvider({ children }) {
     }
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, authLogin, authLogout, loading }}>
+        <AuthContext.Provider value={{ isAuthenticated, authLogin, authLogout, loading, user }}>
             {children}
         </AuthContext.Provider>
     );
 }
-
-export function useAuth() {
-    return useContext(AuthContext);
-}
-
-// La función useAuth se utiliza para centralizar el contexto en un mismo método que nos va a ahorrar una importación en todos los componentes donde querramos usarlo. Ademas si quisieramos cambiar el nombre del contexto sería necesario cambiarlo en todos los componentes donde lo usemos, pero de esta manera no hace falta hacerlo ya que no utilizamos el nombre del contexto en los mismos.
-// ejemplo de uso sin useAuth --> const { authLogout } = useContext(AuthContext);
-// ejemplo de uso con useAuth --> const { authLogout } = useAuth();

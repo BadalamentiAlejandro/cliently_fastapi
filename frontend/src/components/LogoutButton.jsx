@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
+import useAuth from "../hooks/useAuth"
 import { useNavigate } from "react-router-dom";
 import Modal from "./Modal";
 import shutDown from "../assets/shutDown.png";
@@ -18,9 +18,9 @@ function LogoutButton() {
         <div className="flex flex-col items-center justify-end">
             <button
                 onClick={() => setIsOpen(true)}
-                className="bg-stone-400 p-2 m-2 rounded-full hover:bg-stone-600 min-w-fit hover:scale-110 transition ease-in-out duration-500"
+                className="bg-blue-900 p-2 m-2 hover:bg-blue-700 text-white rounded-md min-w-fit hover:scale-110 transition ease-in-out duration-500"
             >
-                <img src={shutDown} alt="Cerrar sesión" className="h-7 w-7" />
+                Salir
             </button>
 
             {isOpen && (

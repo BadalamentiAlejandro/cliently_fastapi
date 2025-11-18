@@ -6,12 +6,6 @@
   
   "service": "backend", 
   "workspaceFolder": "/app", 
-
-  // CORRECCIÓN: Sube dos niveles para encontrar el .env en la raíz del proyecto
-  // (La ruta 'source' en mounts es relativa a la carpeta donde abres VS Code, que es 'backend/')
-  "mounts": [
-    "source=../.env,target=/app/.env,type=bind,consistency=cached"
-  ],
   
   "containerEnv": {
     "PYTHONUNBUFFERED": "1"

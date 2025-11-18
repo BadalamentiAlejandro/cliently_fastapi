@@ -9,9 +9,11 @@ from ..auth.hashing import hash_password
 
 
 def create_user(db: Session, user: schemas.UserCreate):
+    # Normalizar username.
+    user.username = user.username.strip().lower()
 
+    # hashing de password.
     hashed_password = hash_password(user.password)
-
     user.password = hashed_password
 
     db_user = models.User(**user.model_dump())
@@ -34,10 +36,10 @@ def create_user(db: Session, user: schemas.UserCreate):
         raise
 
 
-def get_users_list(db: Session, skip: int = 0, limit: int = 20):
+def get_users_list(db: Session):
 
     try:
-        users = db.query(models.User).offset(skip).limit(limit).all()
+        users = db.query(models.User).filter(models.User.username != "admin").all()
         return users
     
     except Exception as e:
@@ -72,26 +74,35 @@ def get_user_by_id(db: Session, user_id: int):
 
 def update_user(db: Session, username: str, user_update: schemas.UserUpdate):
 
-    try:
-        db_user = get_user_by_username(db, username)
+    # Buscar el usuario original
+    db_user = get_user_by_username(db, username)
+    if db_user is None:
+        return None
 
-        if db_user is None:
-            return None
-        
-        for key, value in user_update.model_dump(exclude_unset=True).items():
+    # Convertir los datos enviados a un diccionario
+    update_data = user_update.model_dump(exclude_unset=True)
+
+    # Normalizar username
+    if "username" in update_data:
+        update_data["username"] = update_data["username"].lower().strip()
+
+    try:
+        for key, value in update_data.items():
             setattr(db_user, key, value)
+
         db.commit()
         db.refresh(db_user)
         return db_user
-    
+
     except IntegrityError:
         db.rollback()
         return False
-    
+
     except Exception as e:
         db.rollback()
         logging.error(f"Unexpected error in update_user: {e}")
         raise
+
 
 
 def delete_user(db: Session, username: str):

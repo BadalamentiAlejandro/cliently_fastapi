@@ -54,7 +54,7 @@ function ModifyClientButton({ selected, onSelect, modifyFunc, ctx }) {
         <div className="flex flex-col items-center justify-center">
             <button
             onClick={handleSelected}
-            className="bg-stone-400 p-2 m-2 rounded-full hover:bg-stone-600 w-[calc(12vw)] hover:translate-x-5 transition ease-in-out duration-500"
+            className="bg-blue-900 p-2 m-2 rounded-full hover:bg-blue-700 text-white w-[calc(12vw)] hover:translate-x-5 transition ease-in-out duration-500"
             >
                 Modificar cliente
             </button>
@@ -69,7 +69,7 @@ function ModifyClientButton({ selected, onSelect, modifyFunc, ctx }) {
                     ></div>
 
                     {/* Contenido del modal */}
-                    <div className="bg-transparent text-stone-200 rounded-lg shadow-lg z-10 w-md p-6 flex flex-col items-center justify-center">
+                    <div className="bg-blue-900 text-stone-200 rounded-lg shadow-lg z-10 w-md p-6 flex flex-col items-center justify-center">
                         <h2 className="text-xl font-bold mb-1">Modificar {selected.name}</h2>   
 
                         {/* Modal form for new client */}
@@ -80,25 +80,25 @@ function ModifyClientButton({ selected, onSelect, modifyFunc, ctx }) {
                             id="newName"
                             name="newName"
                             autoComplete="off" 
-                            className="p-2 m-1 border-2 border-black rounded-md bg-slate-400 text-black w-full"
+                            className="p-2 m-1 border-2 border-black rounded-md bg-gray-300 text-black w-full"
                             defaultValue={selected.name} />
 
                             <input type="text"
                             id="newEmail"
                             name="newEmail"
                             autoComplete="off" 
-                            className="p-2 m-1 border-2 border-black rounded-md bg-slate-400 text-black w-full"
+                            className="p-2 m-1 border-2 border-black rounded-md bg-gray-300 text-black w-full"
                             defaultValue={selected?.email || ""} />
 
                             <input type="text"
                             id="newPhone"
                             name="newPhone"
                             autoComplete="off" 
-                            className="p-2 m-1 border-2 border-black rounded-md bg-slate-400 text-black w-full"
+                            className="p-2 m-1 border-2 border-black rounded-md bg-gray-300 text-black w-full"
                             defaultValue={selected?.phone || ""} />
                             
                             <button type="submit"
-                            className="bg-stone-600 p-2 m-2 rounded-full hover:bg-stone-700 transtition duration-500 ease-in-out hover:scale-110 min-w-fit"
+                            className="bg-blue-900 p-2 m-2 rounded-full hover:bg-blue-700 transtition duration-500 ease-in-out hover:scale-110 min-w-fit"
                             >
                                 Cambiar
                             </button>

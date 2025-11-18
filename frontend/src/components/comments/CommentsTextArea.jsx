@@ -39,13 +39,13 @@ function CommentsTextArea({ client, addNewComment, ctx }) {
                     name="addComment"
                     id="addComment"
                     placeholder="Agrega un comentario" 
-                    className="bg-neutral-300 rounded-md w-2xl min-h-[6rem] resize-none m-1 p-2 flex items-center justify-center text-start placeholder:text-center"
+                    className="bg-neutral-200 rounded-md w-2xl min-h-[6rem] resize-none m-1 p-2 flex items-center justify-center text-start placeholder:text-center"
                     onKeyDown={handleKeyDown}
                 >
                 </textarea>
                 <button
                     type="submit"
-                    className="flex w-fit m-1 rounded-md bg-stone-400 p-2 hover:bg-stone-600 hover:scale-110 ease-in-out transition duration-500"
+                    className="flex w-fit m-1 rounded-md bg-blue-900 text-white p-2 hover:bg-blue-700 hover:scale-110 ease-in-out transition duration-500"
                     disabled={!client}
                 >
                     Guardar

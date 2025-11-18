@@ -47,7 +47,7 @@ function ModifyCommentButton({ comment, selectedClient, modFunction, ctx }) {
 
     return(
         <div>
-            <button onClick={() => {setOpen(true)}} className="flex w-fit m-1 rounded-md bg-stone-400 p-2 hover:bg-stone-600 hover:scale-110 ease-in-out transition duration-500">Modificar</button>
+            <button onClick={() => {setOpen(true)}} className="flex w-fit m-1 rounded-md bg-blue-900 text-white p-2 hover:bg-blue-700 hover:scale-110 ease-in-out transition duration-500">Modificar</button>
 
             {/* Overlay + Modal */}
             {open && (
@@ -59,7 +59,7 @@ function ModifyCommentButton({ comment, selectedClient, modFunction, ctx }) {
                     ></div>
 
                     {/* Contenido del modal */}
-                    <div className="bg-transparent text-stone-200 rounded-lg shadow-lg z-10 w-md p-6 flex flex-col items-center justify-center">
+                    <div className="bg-blue-900 text-black rounded-lg shadow-lg z-10 w-lg p-6 flex flex-col items-center justify-center">
                         {/* Modal form for new client */}
                         <form className="flex flex-col w-full items-center"
                         onSubmit={handleModify}
@@ -68,14 +68,14 @@ function ModifyCommentButton({ comment, selectedClient, modFunction, ctx }) {
                                 name="modComment"
                                 id="modComment"
                                 placeholder="Modifica el comentario" 
-                                className="bg-neutral-500 rounded-md w-md min-h-[6rem] resize-none m-1 p-1 flex items-center justify-center text-center"
+                                className="bg-gray-300 rounded-md w-md min-h-[10rem] resize-none m-1 p-2 flex items-center justify-center text-center"
                                 onKeyDown={handleKeyConfirm}
                                 defaultValue={comment.text}
                             >
                             </textarea>
                             
                             <button type="submit"
-                            className="bg-stone-600 p-2 m-2 rounded-full hover:bg-stone-700 transtition duration-500 ease-in-out hover:scale-110 min-w-fit"
+                            className="bg-blue-900 text-stone-200 p-2 m-2 rounded-full hover:bg-blue-700 transtition duration-500 ease-in-out hover:scale-110 min-w-fit"
                             >
                                 Cambiar
                             </button>

@@ -38,7 +38,7 @@ function AddClientButton({ addNewClient, ctx }) {
             {/* Botón para abrir modal */}
             <button
             onClick={() => setIsOpen(true)}
-            className="bg-stone-400 p-2 m-2 rounded-full hover:bg-stone-600 w-[calc(12vw)] hover:translate-x-5 transition ease-in-out duration-500"
+            className="bg-blue-900 p-2 m-2 rounded-full hover:bg-blue-700 text-white w-[calc(12vw)] hover:translate-x-5 transition ease-in-out duration-500"
             >
             Nuevo cliente
             </button>
@@ -53,7 +53,7 @@ function AddClientButton({ addNewClient, ctx }) {
                     ></div>
 
                     {/* Contenido del modal */}
-                    <div className="bg-transparent text-stone-200 rounded-lg shadow-lg z-10 w-md p-6 flex flex-col items-center justify-center">
+                    <div className="bg-blue-900 text-stone-200 rounded-lg shadow-lg z-10 w-md p-6 flex flex-col items-center justify-center">
                         <h2 className="text-xl font-bold mb-1">NUEVO CLIENTE</h2>
 
                         {/* Modal form for new client */}
@@ -64,25 +64,25 @@ function AddClientButton({ addNewClient, ctx }) {
                             id="newClientInput"
                             name="newClientInput"
                             autoComplete="off" 
-                            className="p-2 m-1 border-2 border-black rounded-md bg-slate-400 text-black w-full"
+                            className="p-2 m-1 border-2 border-black rounded-md bg-gray-300 text-black w-full"
                             placeholder="Introduce un nuevo cliente" />
 
                             <input type="text"
                             id="newClientEmail"
                             name="newClientEmail"
                             autoComplete="off" 
-                            className="p-2 m-1 border-2 border-black rounded-md bg-slate-400 text-black w-full"
+                            className="p-2 m-1 border-2 border-black rounded-md bg-gray-300 text-black w-full"
                             placeholder="E-mail opcional" />
 
                             <input type="text"
                             id="newClientPhone"
                             name="newClientPhone"
                             autoComplete="off" 
-                            className="p-2 m-1 border-2 border-black rounded-md bg-slate-400 text-black w-full"
+                            className="p-2 m-1 border-2 border-black rounded-md bg-gray-300 text-black w-full"
                             placeholder="Teléfono opcional" />
                             
                             <button type="submit"
-                            className="bg-stone-600 p-2 m-2 rounded-full hover:bg-stone-700 transtition duration-500 ease-in-out hover:scale-110 min-w-fit"
+                            className="bg-blue-900 p-2 m-2 rounded-full hover:bg-blue-700 transtition duration-500 ease-in-out hover:scale-110 min-w-fit"
                             >
                                 Agregar
                             </button>

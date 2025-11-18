@@ -9,6 +9,7 @@ function useClients() {
     const [clientsError, setClientsError] = useState(null);
 
     // Load all clients.
+    //Incluir useCallback si necesito pasar la función por props.
     async function loadClients(ctx) {
         try {
             setClientsError(null)

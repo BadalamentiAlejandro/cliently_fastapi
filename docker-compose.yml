@@ -1,9 +1,8 @@
-version: "3.9"
 
 services:
   db:
     image: postgres:17
-    container_name: cliently_db
+    container_name: cliently_db_container
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
@@ -12,6 +11,7 @@ services:
       - "5432:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
+      - ./backups:/backups # Conecta backups del contenedor con local.
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
       interval: 5s
@@ -23,7 +23,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: cliently_fastapi_backend
+    container_name: cliently_fastapi_container
     command: sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
     ports:
       - "8000:8000"
@@ -42,7 +42,7 @@ services:
       dockerfile: Dockerfile
       # args:           # Para build de producción.
       #   FASTAPI_URL: ${FASTAPI_URL}
-    container_name: cliently_react_frontend
+    container_name: cliently_react_container
     ports:
       - "5173:5173"
     volumes:

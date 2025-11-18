@@ -9,6 +9,7 @@ function useComments() {
     const [comments, setComments] = useState([]);
     const [commentsError, setCommentsError] = useState(null);
 
+    //Incluir useCallback para pasar la función como prop.
     async function loadComments(clientID, skip=0, limit=10, ctx) {
         try {
             setCommentsError(null)

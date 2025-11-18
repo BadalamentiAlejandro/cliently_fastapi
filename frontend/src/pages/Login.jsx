@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import useAuth from '../hooks/useAuth';
+import NavBar from '../components/NavBar';
 
 function Login() {
-    const { authLogin } = useAuth();
+    const { authLogin, user } = useAuth();
     const navigate = useNavigate();
 
     const [username, setUsername] = useState('');
@@ -23,20 +24,23 @@ function Login() {
     return(
         <div className="flex flex-wrap lg:flex-nowrap font-sans">
             {/* Side bar (desktop), top bar (mobile) */}
-            <div className="bg-stone-950 text-white h-16 lg:h-screen w-full lg:w-[calc(50vw)] px-6 py-4 flex lg:items-center lg:justify-end items-center">
+            <div className="bg-blue-900 text-white h-16 lg:h-screen w-full lg:w-[calc(50vw)] px-6 py-4 flex lg:items-center lg:justify-end items-center">
                 <div className="lg:text-right">
-                    <h1 className="text-3xl font-bold">LOGO DE EMPRESA</h1>
-                    <p className="text-zinc-300 mt-2 hidden lg:block">Descripción descripción de la plataforma.</p>
+                    <h1 className="text-3xl font-bold">Cliently</h1>
+                    <p className="text-zinc-300 mt-2 hidden lg:block">Simplicidad y control al alcance de tu mano</p>
                 </div>
             </div>
 
             {/* Right side Main Window */}
-            <div className="h-[calc(100vh-64px)] lg:h-screen w-full p-4 bg-cover bg-center flex justify-center items-center bg-[url(././assets/oficina.jpg)]">
-                <div className="w-full max-w-md bg-neutral-200 backdrop-blur-sm rounded-xl shadow-2xl p-8 m-4">
+            <div className="h-[calc(100vh-64px)] h-screen w-full bg-cover bg-center flex flex-col justify-start items-center bg-gray-300">
+                {user &&(
+                    <NavBar />
+                )}
+                <div className="w-full justify-center items-center max-w-md bg-neutral-200 backdrop-blur-sm rounded-xl shadow-2xl p-8 my-auto">
                     <form onSubmit={handleSubmit}>
                         <div className="flex flex-col gap-4">
                             <h1 className="text-3xl font-bold text-zinc-800 text-center">¡Bienvenido!</h1>
-                            <p className="text-zinc-600 text-center mb-4">Ingresa tus credenciales para continuar.</p>
+                            <p className="text-zinc-600 text-center mb-4">Ingresa tus credenciales para continuar</p>
                             
                             {/* Campo de Usuario */}
                             <div>
@@ -78,7 +82,7 @@ function Login() {
                             {/* Botón de Envío */}
                             <button
                                 type="submit"
-                                className="w-full h-11 mt-2 rounded-lg bg-stone-950 text-white font-bold hover:bg-slate-700 focus:outline-none focus:ring-4 focus:ring-slate-400 transition-all duration-300 ease-in-out shadow-md hover:shadow-lg">
+                                className="w-full h-11 mt-2 rounded-lg bg-blue-900 text-white font-bold hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-slate-400 transition-all duration-300 ease-in-out shadow-md hover:shadow-lg">
                                 Iniciar Sesión
                             </button>
                         </div>

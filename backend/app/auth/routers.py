@@ -25,7 +25,7 @@ def login_for_access_token(user_token: schemas.TokenRequest, db: Session = Depen
             detail="Incorrect username or password"
         )
 
-    token = crud.create_tokens(db, db_user.id)
+    token = crud.create_tokens(db, db_user.id, db_user.username, db_user.role)
 
     if token is None:
         raise HTTPException(
@@ -113,4 +113,4 @@ def verify_access_token(access_token: str = Cookie(None)):
             detail="Invalid or expired token."
         )
 
-    return {"message": "Token is valid."}
+    return payload
