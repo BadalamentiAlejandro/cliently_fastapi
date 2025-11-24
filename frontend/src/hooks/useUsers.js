@@ -2,6 +2,7 @@ import { useState } from "react";
 import { getUsers } from "../services/users/getUsers"
 import { updateUsers } from "../services/users/updateUsers";
 import { addUsers } from "../services/users/addUsers";
+import { deleteUsers } from "../services/users/deleteUsers";
 
 function useUsers() {
     const [ users, setUsers ] = useState([]);
@@ -42,12 +43,25 @@ function useUsers() {
         }
     }
 
+    async function deleteUser(username, ctx) {
+        try{
+            setUsersError(null);
+            const data = await deleteUsers(username, ctx);
+            setUsers((prev) => prev.filter((u) => u.username !== username));
+            return data.message
+        } catch(err) {
+            setUsersError(err.message);
+            throw err;
+        }
+    }
+
     return {
         users,
         usersError,
         loadUsers,
         addUser,
         modifyUser,
+        deleteUser,
     }
 }
 

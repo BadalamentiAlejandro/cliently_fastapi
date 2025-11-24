@@ -1,5 +1,5 @@
 import Modal from "../components/Modal"
-import ClientsInputDataList from "../components/clients/ClientsInputDataList"
+import ClientsComboBox from "../components/clients/ClientsComboBox"
 import AddClientButton from "../components/clients/AddClientButton"
 import DeleteClientButton from "../components/clients/DeleteClientButton"
 import ModifyClientButton from "../components/clients/ModifyClientButton"
@@ -19,7 +19,7 @@ function Dashboard() {
     const navigate = useNavigate();
 
     const { clients, clientsError, loadClients, addNewClient, removeClient, modifyClient } = useClients();
-    const [selectedClient, setSelectedClient] = useState();
+    const [selectedClient, setSelectedClient] = useState(null);
     const [clientError, setClientError] = useState(null);
 
 
@@ -56,7 +56,7 @@ function Dashboard() {
         <div className="flex flex-nowrap font-sans overflow-hidden">
             {/* Left side with datalist client */}
             <div className="w-[calc(30vw)] h-screen overflow-hidden flex flex-nowrap flex-col font-sans items-center justify-evenly bg-blue-900">
-                <ClientsInputDataList clients={clients} onSelect={setSelectedClient} />
+                <ClientsComboBox clients={clients} selected={selectedClient} onSelect={setSelectedClient} />
                 <AddClientButton addNewClient={addNewClient} ctx={{ authLogout, navigate }} />
                 <ModifyClientButton selected={selectedClient} onSelect={setSelectedClient} modifyFunc={modifyClient} ctx={{ authLogout, navigate }} />
                 <DeleteClientButton selected={selectedClient} onSelect={setSelectedClient} removeClient={removeClient} ctx={{ authLogout, navigate }} />

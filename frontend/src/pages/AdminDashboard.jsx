@@ -5,6 +5,7 @@ import useUsers from '../hooks/useUsers';
 import Modal from '../components/Modal';
 import ModifyUser from '../components/users/ModifyUser';
 import CreateUser from '../components/users/CreateUser';
+import DeleteUser from '../components/users/DeleteUser';
 import useAuth from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -14,9 +15,8 @@ function AdminDashboard() {
     const { authLogout } = useAuth();
     const navigate = useNavigate();
 
-    const { users, usersError, loadUsers, addUser, modifyUser } = useUsers();
+    const { users, usersError, loadUsers, addUser, modifyUser, deleteUser } = useUsers();
     const [ selected, setSelected ] = useState(null);
-    const [ incorrectUser, setIncorrectUser ]= useState(false);
     const [ userError, setUserError ] = useState(null);
     const [ query, setQuery ] = useState('')
 
@@ -36,8 +36,6 @@ function AdminDashboard() {
             : users.filter((user) => {
                 return user.username.toLowerCase().includes(query.toLowerCase())
         })
-
-    // console.log(selected)
 
     return(
         <div className="flex flex-nowrap font-sans overflow-hidden">
@@ -78,6 +76,8 @@ function AdminDashboard() {
                         <li className="p-2">Role: {selected ? selected.role : "Sin role"}</li>
                     </ol>
                 </div>
+
+                <DeleteUser selectedUser={selected} setSelectedUser={setSelected} deleteUser={deleteUser} />
             </div>
             
             {/* Right side */}
@@ -92,10 +92,6 @@ function AdminDashboard() {
             {/* Error handling */}
             {userError &&(
                 <Modal cancelFunc={() => {setUserError(null)}} text={userError} />
-            )}
-
-            {incorrectUser &&(
-                <Modal cancelFunc={() => {setIncorrectUser(false)}} text='USUARIO INCORRECTO' />
             )}
         </div>
     )

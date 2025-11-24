@@ -86,7 +86,8 @@ function ModifyClientButton({ selected, onSelect, modifyFunc, ctx }) {
                             <input type="text"
                             id="newEmail"
                             name="newEmail"
-                            autoComplete="off" 
+                            autoComplete="off"
+                            placeholder="Introduce un E-Mail"
                             className="p-2 m-1 border-2 border-black rounded-md bg-gray-300 text-black w-full"
                             defaultValue={selected?.email || ""} />
 
@@ -94,6 +95,7 @@ function ModifyClientButton({ selected, onSelect, modifyFunc, ctx }) {
                             id="newPhone"
                             name="newPhone"
                             autoComplete="off" 
+                            placeholder="Introduce un Teléfono"
                             className="p-2 m-1 border-2 border-black rounded-md bg-gray-300 text-black w-full"
                             defaultValue={selected?.phone || ""} />
                             
